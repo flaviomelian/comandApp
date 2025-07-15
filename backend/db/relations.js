@@ -4,6 +4,7 @@ import Table from "../api/model/table.model.js";
 import Command from "../api/model/command.model.js";
 import ItemCommand from "../api/model/item-command.model.js";
 import User from "../api/model/user.model.js";
+import DailyMenu from "../api/model/daily-menu.model.js"; // Importar el modelo del menú del día
 
 export const initializeRelations = () => {
   try {
@@ -26,6 +27,14 @@ export const initializeRelations = () => {
     // USUARIO - COMANDA
     User.hasMany(Command);
     Command.belongsTo(User);
+
+    // MENU - MENÚ DEL DÍA
+    DailyMenu.belongsTo(Menu, { as: "base", foreignKey: "menuBaseId" })
+    Menu.hasMany(DailyMenu, { foreignKey: "menuBaseId" })
+
+    // MENÚ DEL DÍA - PLATO
+    DailyMenu.belongsToMany(Dish, { through: "dishes_daily-menu" })
+    Dish.belongsToMany(DailyMenu, { through: "dishes_daily-menu" })
 
     console.log("✅ Relaciones correctamente añadidas.");
   } catch (error) {

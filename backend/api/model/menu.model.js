@@ -19,7 +19,7 @@ const Menu = sequelize.define(
     description: {
       type: DataTypes.STRING, //tipo de dato cadena de texto
     },
-    //Capacidad de la menu
+    //Esta activo o no
     active: {
       type: DataTypes.BOOLEAN, //tipo de dato booleano
     },
