@@ -30,30 +30,57 @@
 backend/
 
       ├───api/
+
       │          └───controller/
+
       │           |               ├ auth.controller.js 
+
       │           |               ├ command.controller.js                                 
+
       │           |               ├ dish.controller.js
+
       │           |               ├ item-command.controller.js
+
       │           |               ├ menu.controller.js
+
       │           |               ├ table.controller.js
+
       │           |               └ user.controller.js
+
       │          ├───middlewares/
+
       │           |               └ auth.js
+
       │          ├───model/
+
       │           |               ├ command.model.js              
+
       │           |               ├ dish.model.js
+
       │           |               ├ item-command.model.js
+
       │           |               ├ menu.model.js
+
       │           |               ├ table.model.js
+
       │           |               └ user.model.js
+
       │          └───routes/
+
       │                          ├ command.route.js
+
       │                          ├ dish.route.js
+
       │                          ├ item-command.route.js
+
       │                          ├ menu.route.js
+
       │                          ├ table.route.js
+
       │                          └ user.route.js
+
       └───db/
+
                   ├─ index.js
+
                   └─ relations.js
