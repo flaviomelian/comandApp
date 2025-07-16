@@ -19,6 +19,11 @@ const Menu = sequelize.define(
     description: {
       type: DataTypes.STRING, //tipo de dato cadena de texto
     },
+    //Precio
+    price: {
+      type: DataTypes.DOUBLE, //tipo de dato double
+      allowNull: false, //no puede ser nulo
+    },
     //Esta activo o no
     active: {
       type: DataTypes.BOOLEAN, //tipo de dato booleano

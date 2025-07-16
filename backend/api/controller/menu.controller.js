@@ -1,4 +1,7 @@
 import Menu from "../model/menu.model.js"; //Importar el modelo del menu
+import { Op } from "sequelize"; //Importar el operador Op de sequelize
+
+//Controladores para las rutas de los menús
 
 export const getAllMenus = async (request, response) => {
   //Funcion que nos devuelve todas las filas de la tabla menus
@@ -28,6 +31,32 @@ export const getMenu = async (request, response) => {
     return response.status(200).json(menu); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
     return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+  }
+};
+
+export const getMenusByDay = async (req, res) => {
+  const dayParam = decodeURIComponent(req.params.day);
+  if (!dayParam) return res.status(400).json({ message: "Día no especificado" });
+  const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const day = days[dayParam]
+  console.log("dayParam (raw):", req.params.day);
+console.log("dayParam (decoded):", dayParam);
+console.log("Day resolved:", day);
+
+  console.log("Buscando menús para el día:", day);
+  try {
+    const dailyMenus = await Menu.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${day}%`
+        }
+      }
+    });
+
+    if (dailyMenus.length === 0) return res.status(404).json({ message: `No hay menús para el día: ${day}` });
+    return res.status(200).json(dailyMenus);
+  } catch (error) {
+    return res.status(500).json({ message: "Error del servidor", error: error.message });
   }
 };
 
