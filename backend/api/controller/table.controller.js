@@ -10,7 +10,8 @@ export const getAllTables = async (request, response) => {
           name: request.query.name,
         },
       }); //guardamos todas las mesas en una constante con findAll()
-    }
+    } else tables = await Table.findAll();
+    console.log("Tables fetched successfully:", tables);
     return response.status(200).json(tables); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
     return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error

@@ -11,10 +11,6 @@ const Command = sequelize.define(
       autoIncrement: true, //autoincremental
       allowNull: false, //no puede ser nulo
     },
-    //ID de la mesa
-    mesa_id: {
-      type: DataTypes.INTEGER, //tipo de dato entero
-    },
     //Estado de la comanda
     status: {
       type: DataTypes.ENUM("en preparación", "servida", "cancelada"), //tipo de dato ENUM
