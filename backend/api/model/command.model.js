@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize"; //importar sequelize
 import { sequelize } from "../../db/index.js"; //importar las funciones que nos conectan a la base de datos
 
 const Command = sequelize.define(
-  "commands", //nombre de la tabla
+  "command", //nombre de la tabla
   {
     //ID
     id: {

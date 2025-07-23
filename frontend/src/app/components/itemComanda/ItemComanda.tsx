@@ -8,7 +8,11 @@ type Menu = {
   // add other properties if needed
 };
 
-const ItemComanda = () => {
+type ItemComandaProps = {
+  itemChange: (item: string) => void;
+};
+
+const ItemComanda = ({ itemChange }: ItemComandaProps) => {
   const [menus, setMenus] = useState<Menu[]>([]);
 
   useEffect(() => {
@@ -25,7 +29,8 @@ const ItemComanda = () => {
 
   return (
     <div>
-      <select className="border border-gray-300 rounded p-2 w-full max-w-xs">
+      <select className="border border-gray-300 rounded p-2 w-full max-w-xs"
+      onChange={(e) => itemChange((e.target as HTMLSelectElement).value)}>
         <option value="">Seleccione un menú</option>
         {menus.map((menu, index) => (
           <option key={index} value={menu.description}>

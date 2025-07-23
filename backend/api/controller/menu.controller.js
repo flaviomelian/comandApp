@@ -34,6 +34,33 @@ export const getMenu = async (request, response) => {
   }
 };
 
+export const getMenuByName = async (request, response) => {
+  try {
+    const { name } = request.params; // Obtenemos el nombre del menú desde los parámetros de la solicitud
+
+    if (!name) return response.status(400).json({ error: "Missing 'name' in request body" });
+    
+    const decodedName = decodeURIComponent(name);
+    console.log("Decoded name:", decodedName);
+
+    const menu = await Menu.findOne({
+      where: {
+        description: decodedName,
+      },
+    });
+
+    if (!menu) {
+      return response.status(404).json({ error: "Menu not found" });
+    }
+
+    return response.status(200).json(menu);
+  } catch (error) {
+    console.error("Error in getMenuByName:", error);
+    return response.status(500).send(error);
+  }
+};
+
+
 export const getMenusByDay = async (req, res) => {
   const dayParam = decodeURIComponent(req.params.day);
   if (!dayParam) return res.status(400).json({ message: "Día no especificado" });

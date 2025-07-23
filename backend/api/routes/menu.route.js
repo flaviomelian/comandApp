@@ -1,5 +1,5 @@
 import express from "express"; // importar express
-import { getAllMenus, createMenu, getMenu, updateMenu, deleteMenu, getMenusByDay }
+import { getAllMenus, createMenu, getMenu, updateMenu, deleteMenu, getMenusByDay, getMenuByName }
 from "../controller/menu.controller.js"; //traernos el controlador de las comandas
 
 const router = express.Router(); //importar el router de express
@@ -7,6 +7,7 @@ const router = express.Router(); //importar el router de express
 router.get("/", getAllMenus);
 router.get("/day/:day", getMenusByDay);
 router.get("/:id", getMenu);
+router.get("/:name", getMenuByName);
 router.post("/", createMenu);
 router.put("/:id", updateMenu);
 router.delete("/:id", deleteMenu);

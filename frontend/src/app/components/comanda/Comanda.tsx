@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import ItemComanda from "@/app/components/itemComanda/ItemComanda";
 import { createCommand } from "@/app/services/commandService";
 import { getTables } from "../../services/tableService";
+import { createItemCommand } from "@/app/services/itemCommandService";
+import { getMenuByName } from "@/app/services/menuService";
+import { stat } from "fs";
 
 interface Table {
   id: number;
@@ -16,6 +19,7 @@ const Comanda = () => {
   const [dessert, setDessert] = useState(false);
   const [observations, setObservations] = useState("sin observaciones");
   const [tables, setTables] = useState<Table[]>([]);
+  const [items, setItems] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchTables = async () => {
@@ -28,14 +32,57 @@ const Comanda = () => {
       }
     };
     fetchTables();
-  }, [tables]);
+  }, []);
 
-  const uploadComanda = (e: React.FormEvent) => {
+  const getDishByName = async (item: string) => {
+    return await getMenuByName(item)
+  }
+
+  const uploadComanda = async (e: React.FormEvent) => {
     e.preventDefault();
-    createCommand({
-      tableId: mesaId,
-      status: "en preparación",
-      observations: observations,
+
+    try {
+      const command = await createCommand({
+        tableId: mesaId,
+        status: "en preparación",
+        observations: observations,
+      });
+
+      const commandId = command.id; // Asegúrate de que esto viene desde la API
+
+      await Promise.all(
+        items.map(async (item) => {
+            console.log("Processing item:", item);
+          const dish = await getDishByName(item); // <-- Necesitas esto
+
+          if (!dish) {
+            console.warn(
+              `No se encontró un plato con nombre: ${item}`
+            );
+            return;
+          }
+
+          await createItemCommand({
+            commandId: commandId,
+            dishId: dish.id,
+            amount: 1,
+            status: "pendiente",
+          });
+        })
+      );
+
+      console.log("Comanda e items guardados exitosamente");
+    } catch (error) {
+      console.error("Error al crear la comanda o los items:", error);
+    }
+  };
+
+  const handleItemChange = (item: string) => {
+    console.log("Item added:", item);
+    setItems((prevItems) => {
+      const updatedItems = [...prevItems, item];
+      console.log("Current items (inside setState):", updatedItems);
+      return updatedItems;
     });
   };
 
@@ -75,13 +122,13 @@ const Comanda = () => {
         <h2 className="text-lg font-bold mb-2">Primeros</h2>
       )}
       {Array.from({ length: customersAmount }, (_, i) => (
-        <ItemComanda key={i} />
+        <ItemComanda key={i} itemChange={handleItemChange} />
       ))}
       {customersAmount > 0 && (
         <h2 className="text-lg font-bold mb-2">Segundos</h2>
       )}
       {Array.from({ length: customersAmount }, (_, i) => (
-        <ItemComanda key={i} />
+        <ItemComanda key={i} itemChange={handleItemChange} />
       ))}
       <label className="text-gray-200 mb-2">
         Observaciones:

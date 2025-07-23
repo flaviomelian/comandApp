@@ -1,8 +1,7 @@
+import Comandas from '../components/comandas/Comandas';
 const page = () => {
   return (
-    <div>
-      COMANDAS
-    </div>
+    <Comandas/>
   )
 }
 

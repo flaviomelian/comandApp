@@ -1,21 +1,30 @@
-import Command from "../model/command.model.js"; //Importar el modelo dla comanda
+import Command from "../model/command.model.js"; //Importar el modelo de la comanda
 
 export const getAllCommands = async (request, response) => {
   //Funcion que nos devuelve todas las filas de la tabla comandas
   try {
     let commands;
-    if (request.query && request.query.name) {
-      commands = await Command.findAll({
-        where: {
-          name: request.query.name,
-        },
-      }); //guardamos todas las comandas en una constante con findAll()
-    }
+    commands = await Command.findAll(); //guardamos todas las comandas en una constante con findAll()
     return response.status(200).json(commands); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
     return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
+
+export const getCommandsByStatus = async (request, response) => {
+  try {
+    const commands = await Command.findAll({
+      where: {
+        status: request.params.status, // Filtrar por estado
+      },
+    });
+    if (commands.length === 0) throw new Error("No commands found with the given status");
+    return response.status(200).json(commands); //devolvemos el codigo de OK y la respuesta en formato json
+  } catch (error) {
+    console.error("Error in getCommandsByStatus:", error);
+    throw error; // Propagate the error to be handled by the caller
+  }
+}
 
 export const getCommand = async (request, response) => {
   //Funcion que nos devuelve una comanda
