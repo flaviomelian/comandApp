@@ -31,6 +31,24 @@ export const getItemCommand = async (request, response) => {
   }
 };
 
+export const getAllItemsByCommand = async (request, response) => {
+  //Funcion que nos devuelve todas las filas de la tabla items filtradas por id de comanda
+  console.log("Fetching items for command ID:", request.params.id);
+  try {
+    const items = await ItemCommand.findAll({
+      where: {
+        commandId: request.params.id, //filtrar por id de comanda
+      },
+    }); //guardamos todos los items en una constante con findAll()
+    if (items.length === 0) 
+      return response.status(404).json({ error: "No items found for this command" });
+    return response.status(200).json(items); //devolvemos el codigo de OK y la respuesta en formato json
+  } catch (error) {
+    console.error("Error fetching items by command ID:", error);
+    return response.status(501).send(error); //en caso de error, devolvemos el codigo de error y enviamos el mensaje de error
+  }
+};
+
 export const createItemCommand = async (request, response) => {
   //Funcion que nos crea una comanda
   try {

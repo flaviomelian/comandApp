@@ -1,6 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getCommands, getCommandsByStatus } from "@/app/services/commandService";
+import {
+  getCommands,
+  getCommandsByStatus,
+} from "@/app/services/commandService";
+import { getItemsByCommandId } from "@/app/services/itemCommandService";
+import { stat } from "fs";
 
 interface Comanda {
   id: number;
@@ -9,8 +14,20 @@ interface Comanda {
   observations: string;
 }
 
+interface Item {
+  id: number;
+  commandId: number;
+  dishId: number;
+  amount: number;
+  status: string;
+}
+
 const Comandas = () => {
   const [comandas, setComandas] = useState<Comanda[]>([]);
+  const [expandedCommandId, setExpandedCommandId] = useState<number | null>(
+    null
+  );
+  const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
     const fetchComandas = async () => {
@@ -41,6 +58,21 @@ const Comandas = () => {
       setComandas(response);
     } catch (error) {
       console.error("Error fetching all comandas:", error);
+    }
+  };
+
+  const toggleDetails = async (commandId: number) => {
+    if (expandedCommandId === commandId) {
+      setExpandedCommandId(null);
+      setItems([]);
+    } else {
+      try {
+        const response = await getItemsByCommandId(commandId);
+        setItems(response);
+        setExpandedCommandId(commandId);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
     }
   };
 
@@ -88,17 +120,45 @@ const Comandas = () => {
           </tr>
         </thead>
         <tbody>
-          {comandas.map((comanda: Comanda, index) => (
-            <tr
-              className="odd:bg-gray-900 even:bg-gray-700 text-center hover:bg-gray-800 hover:py-5 ease-in-out duration-300"
-              key={index}
-              onClick={() => console.log("Row clicked", comanda.id)}
-            >
-              <td className="text-center py-3">{comanda.id}</td>
-              <td className="text-center py-3">{comanda.status}</td>
-              <td className="text-center py-3">{comanda.observations}</td>
-              <td className="text-center py-3">{comanda.tableId}</td>
-            </tr>
+          {comandas.map((comanda: Comanda) => (
+            <React.Fragment key={comanda.id}>
+              <tr
+                className="odd:bg-gray-900 even:bg-gray-700 text-center hover:bg-gray-800 ease-in-out duration-300 cursor-pointer"
+                onClick={() => toggleDetails(comanda.id)}
+              >
+                <td className="text-center py-3 hover:py-5 transition-all duration-300">
+                  {comanda.id}
+                </td>
+                <td className="text-center py-3 hover:py-5 transition-all duration-300">
+                  {comanda.status}
+                </td>
+                <td className="text-center py-3 hover:py-5 transition-all duration-300">
+                  {comanda.observations}
+                </td>
+                <td className="text-center py-3 hover:py-5 transition-all duration-300">
+                  {comanda.tableId}
+                </td>
+              </tr>
+
+              {expandedCommandId === comanda.id && (
+                <tr className="bg-gray-800">
+                  <td colSpan={4} className="p-4 text-white text-left">
+                    {items.length > 0 ? (
+                      <ul className="list-disc pl-6">
+                        {items.map((item, idx) => (
+                          <li className="list-none text-center justify-between" key={idx}>
+                            🧾 ID Plato: {item.dishId} – Cantidad: {item.amount}{" "}
+                            – Estado: {item.status}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>No hay items para esta comanda.</p>
+                    )}
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
       </table>

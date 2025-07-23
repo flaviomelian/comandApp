@@ -25,10 +25,6 @@ const ItemCommand = sequelize.define(
       allowNull: false, //no puede ser nulo
       defaultValue: 0, //valor por defecto
     },
-    //Observaciones del plato
-    observations: {
-      type: DataTypes.STRING, //tipo de dato cadena de texto
-    },
     //Estado del plato
     status: {
       type: DataTypes.ENUM("pendiente", "en concina", "servido", "cancelado"), //tipo de dato ENUM

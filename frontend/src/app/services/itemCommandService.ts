@@ -18,3 +18,15 @@ export const createItemCommand = async (itemData: Item) => {
         throw error;
     }
 };
+
+export const getItemsByCommandId = async (commandId: number) => {
+    try {
+        console.log("Fetching items for command ID:", commandId);
+        const response = await api.get(`item-command/command/${commandId}`);
+        if (response.status !== 200) throw new Error("Error fetching items for command");
+        return response.data;
+    } catch (error) {
+        console.error("Error in getItemsByCommandId:", error);
+        throw error;
+    }
+}
