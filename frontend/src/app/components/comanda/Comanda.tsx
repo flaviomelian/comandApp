@@ -4,7 +4,7 @@ import ItemComanda from "@/app/components/itemComanda/ItemComanda";
 import { createCommand } from "@/app/services/commandService";
 import { getTables } from "../../services/tableService";
 import { createItemCommand } from "@/app/services/itemCommandService";
-import { getMenuByName } from "@/app/services/menuService";
+import { getMenuById } from "@/app/services/menuService";
 import { stat } from "fs";
 
 interface Table {
@@ -34,8 +34,8 @@ const Comanda = () => {
     fetchTables();
   }, []);
 
-  const getDishByName = async (item: string) => {
-    return await getMenuByName(item)
+  const getDishById = async (item: number) => {
+    return await getMenuById(item)
   }
 
   const uploadComanda = async (e: React.FormEvent) => {
@@ -50,16 +50,16 @@ const Comanda = () => {
 
       const commandId = command.id; // Asegúrate de que esto viene desde la API
 
-      await Promise.all(
+      await Promise.all(  // Se supone que se usa Promise.all para manejar múltiples promesas y escribirlas en
         items.map(async (item) => {
-            console.log("Processing item:", item);
-          const dish = await getDishByName(item); // <-- Necesitas esto
+          console.log("Processing item:", item);
+          const dish = await getDishById(item); // <-- Necesitas esto
 
           if (!dish) {
             console.warn(
               `No se encontró un plato con nombre: ${item}`
             );
-            return;
+            //return;
           }
 
           await createItemCommand({

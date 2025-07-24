@@ -12,17 +12,9 @@ export const getMenusByDay = async (day: number) => {
     }
 }
 
-export const getMenuByName = async (name: string) => {
+export const getMenuById = async (id: number) => {
   try {
-    const decodedName = decodeURIComponent(name);
-    console.log("Decoded name:", decodedName);
-
-    const response = await api.get(`/menus/name`, {
-      params: {
-        name: decodedName,
-      },
-    });
-
+    const response = await api.get(`/menus/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error in getMenuByName:", error);

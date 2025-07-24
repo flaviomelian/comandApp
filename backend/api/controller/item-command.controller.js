@@ -13,7 +13,8 @@ export const getAllItemCommands = async (request, response) => {
     }
     return response.status(200).json(itemCommands); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    console.error("Error fetching all item commands:", error);
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -27,7 +28,7 @@ export const getItemCommand = async (request, response) => {
     }); //guardamos la comanda en una constante con findOne()
     return response.status(200).json(itemCommand); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -45,17 +46,19 @@ export const getAllItemsByCommand = async (request, response) => {
     return response.status(200).json(items); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
     console.error("Error fetching items by command ID:", error);
-    return response.status(501).send(error); //en caso de error, devolvemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolvemos el codigo de error y enviamos el mensaje de error
   }
 };
 
 export const createItemCommand = async (request, response) => {
   //Funcion que nos crea una comanda
   try {
+    console.log("Creating item command with data:", request.body);
     const itemCommand = await ItemCommand.create(request.body); //guardamos la comanda en una constante con create() y le pasamos el body de la request (la info dla comanda)
     return response.status(200).json(itemCommand); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    console.error("Error creating item commands:", error);
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -67,7 +70,7 @@ export const updateItemCommand = async (request, response) => {
     }); //guardamos la comanda en una constante con update() y le pasamos el body de la request (la info de la comanda), usamos su id para filtar el que se quiere actualizar
     return response.status(200).json(itemCommand); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -81,6 +84,6 @@ export const deleteItemCommand = async (request, response) => {
       .status(200)
       .send(`ItemCommand with id: ${request.params.id} deleted`); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };

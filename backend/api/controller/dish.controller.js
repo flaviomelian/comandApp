@@ -13,7 +13,7 @@ export const getAllDishes = async (request, response) => {
     }
     return response.status(200).json(dishes); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -27,7 +27,7 @@ export const getDish = async (request, response) => {
     }); //guardamos el usuario en una constante con findOne()
     return response.status(200).json(dish); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -37,7 +37,7 @@ export const createDish = async (request, response) => {
     const dish = await Dish.create(request.body); //guardamos el usuario en una constante con create() y le pasamos el body de la request (la info del usuario)
     return response.status(200).json(dish); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -49,7 +49,7 @@ export const updateDish = async (request, response) => {
     }); //guardamos el plato en una constante con update() y le pasamos el body de la request (la info del usuario), usamos su id para filtar el que se quiere actualizar
     return response.status(200).json(dish); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -63,6 +63,6 @@ export const deleteDish = async (request, response) => {
       .status(200)
       .send(`Dish with id: ${request.params.id} deleted`); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };

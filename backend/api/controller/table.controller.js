@@ -14,7 +14,7 @@ export const getAllTables = async (request, response) => {
     console.log("Tables fetched successfully:", tables);
     return response.status(200).json(tables); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -28,7 +28,7 @@ export const getTable = async (request, response) => {
     }); //guardamos la mesa en una constante con findOne()
     return response.status(200).json(table); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -38,7 +38,7 @@ export const createTable = async (request, response) => {
     const table = await Table.create(request.body); //guardamos la mesa en una constante con create() y le pasamos el body de la request (la info del mesa)
     return response.status(200).json(table); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -50,7 +50,7 @@ export const updateTable = async (request, response) => {
     }); //guardamos el mesa en una constante con update() y le pasamos el body de la request (la info de la mesa), usamos su id para filtar el que se quiere actualizar
     return response.status(200).json(table); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -64,6 +64,6 @@ export const deleteTable = async (request, response) => {
       .status(200)
       .send(`Table with id: ${request.params.id} deleted`); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };

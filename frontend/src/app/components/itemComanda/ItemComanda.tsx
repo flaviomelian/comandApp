@@ -3,6 +3,7 @@ import { getMenusByDay } from "@/app/services/menuService";
 import React, { useState, useEffect } from "react";
 
 type Menu = {
+  id: number;
   description: string;
   price: number;
   // add other properties if needed
@@ -33,7 +34,7 @@ const ItemComanda = ({ itemChange }: ItemComandaProps) => {
       onChange={(e) => itemChange((e.target as HTMLSelectElement).value)}>
         <option value="">Seleccione un menú</option>
         {menus.map((menu, index) => (
-          <option key={index} value={menu.description}>
+          <option key={index} value={menu.id}>
             {menu.description} - {menu.price} €
           </option>
         ))}

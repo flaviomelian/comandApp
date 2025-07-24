@@ -16,7 +16,7 @@ export const getAllMenus = async (request, response) => {
     }
     return response.status(200).json(menus); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -30,13 +30,13 @@ export const getMenu = async (request, response) => {
     }); //guardamos el menu en una constante con findOne()
     return response.status(200).json(menu); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
 export const getMenuByName = async (request, response) => {
   try {
-    const { name } = request.params; // Obtenemos el nombre del menú desde los parámetros de la solicitud
+    const { name } = request.query; // Obtenemos el nombre del menú desde los parámetros de la solicitud
 
     if (!name) return response.status(400).json({ error: "Missing 'name' in request body" });
     
@@ -49,10 +49,8 @@ export const getMenuByName = async (request, response) => {
       },
     });
 
-    if (!menu) {
-      return response.status(404).json({ error: "Menu not found" });
-    }
-
+    if (!menu) return response.status(404).json({ error: "Menu not found" });
+    console.log("Menu found:", menu);
     return response.status(200).json(menu);
   } catch (error) {
     console.error("Error in getMenuByName:", error);
@@ -93,7 +91,7 @@ export const createMenu = async (request, response) => {
     const menu = await Menu.create(request.body); //guardamos el menu en una constante con create() y le pasamos el body de la request (la info del menu)
     return response.status(200).json(menu); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -105,7 +103,7 @@ export const updateMenu = async (request, response) => {
     }); //guardamos el menu en una constante con update() y le pasamos el body de la request (la info del menu), usamos su id para filtar el que se quiere actualizar
     return response.status(200).json(menu); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -119,6 +117,6 @@ export const deleteMenu = async (request, response) => {
       .status(200)
       .send(`Menu with id: ${request.params.id} deleted`); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };

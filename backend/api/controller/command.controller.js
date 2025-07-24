@@ -7,7 +7,7 @@ export const getAllCommands = async (request, response) => {
     commands = await Command.findAll(); //guardamos todas las comandas en una constante con findAll()
     return response.status(200).json(commands); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -36,7 +36,7 @@ export const getCommand = async (request, response) => {
     }); //guardamos la comanda en una constante con findOne()
     return response.status(200).json(command); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -46,7 +46,7 @@ export const createCommand = async (request, response) => {
     const command = await Command.create(request.body); //guardamos la comanda en una constante con create() y le pasamos el body de la request (la info dla comanda)
     return response.status(200).json(command); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -58,7 +58,7 @@ export const updateCommand = async (request, response) => {
     }); //guardamos la comanda en una constante con update() y le pasamos el body de la request (la info de la comanda), usamos su id para filtar el que se quiere actualizar
     return response.status(200).json(command); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
 
@@ -72,6 +72,6 @@ export const deleteCommand = async (request, response) => {
       .status(200)
       .send(`Command with id: ${request.params.id} deleted`); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
-    return response.status(501).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
   }
 };
