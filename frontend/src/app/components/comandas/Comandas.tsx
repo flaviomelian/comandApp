@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   getCommands,
   getCommandsByStatus,
 } from "@/app/services/commandService";
 import { getItemsByCommandId } from "@/app/services/itemCommandService";
-import { stat } from "fs";
 
 interface Comanda {
   id: number;
@@ -28,6 +27,24 @@ const Comandas = () => {
     null
   );
   const [items, setItems] = useState<Item[]>([]);
+  const [globalStatus, setGlobalStatus] = useState<boolean>(true);
+  const globalStatusRef = useRef<boolean>(true);
+
+  const expandSequentially = async () => {
+    const preparacionComandas = comandas.filter(
+      (c) => c.status === "en preparación"
+    );
+    console.log("Expanding sequentially for:", preparacionComandas);
+
+    for (const comanda of preparacionComandas) {
+      if (!globalStatusRef.current) {
+        console.log("Global status disabled, breaking loop.");
+        break;
+      }
+      await toggleDetails(comanda.id);
+      await new Promise((resolve) => setTimeout(resolve, 2500));
+    }
+  };
 
   useEffect(() => {
     const fetchComandas = async () => {
@@ -41,6 +58,18 @@ const Comandas = () => {
     };
     fetchComandas();
   }, []);
+
+  useEffect(() => {
+    globalStatusRef.current = globalStatus;
+    console.log("Global status ref updated:", globalStatusRef.current);
+    expandSequentially();
+  }, [globalStatus]);
+
+  useEffect(() => {
+    console.log("Global status changed:", globalStatus);
+    globalStatusRef.current = globalStatus;
+    console.log("Global status ref updated:", globalStatusRef.current);
+  }, [globalStatus]);
 
   const getAll = async () => {
     try {
@@ -81,7 +110,7 @@ const Comandas = () => {
       <h2 className="text-2xl font-bold mt-10 mb-4 text-center w-full">
         Comandas
       </h2>
-      <div className="flex justify-around mt-20 border-b border-gray-300">
+      <div className="flex justify-around mt-20">
         <h3
           className="px-45 py-2 mr-2 bg-gray-500 text-gray-800 rounded-t-lg shadow-sm cursor-pointer hover:bg-gray-100 hover:py-4 ease-in-out duration-300"
           onClick={() => getAll()}
@@ -124,7 +153,18 @@ const Comandas = () => {
             <React.Fragment key={comanda.id}>
               <tr
                 className="odd:bg-gray-900 even:bg-gray-700 text-center hover:bg-gray-800 ease-in-out duration-300 cursor-pointer"
-                onClick={() => toggleDetails(comanda.id)}
+                onClick={() => {
+                  if (expandedCommandId === comanda.id) {
+                    // Si es la misma: cerrar y reactivar automático
+                    setExpandedCommandId(null);
+                    setItems([]);
+                    setGlobalStatus(true);
+                  } else {
+                    // Si es otra: abrir esta y detener automático
+                    setGlobalStatus(false);
+                    toggleDetails(comanda.id);
+                  }
+                }}
               >
                 <td className="text-center py-3 hover:py-5 transition-all duration-300">
                   {comanda.id}
@@ -146,7 +186,10 @@ const Comandas = () => {
                     {items.length > 0 ? (
                       <ul className="list-disc pl-6">
                         {items.map((item, idx) => (
-                          <li className="list-none text-center justify-between" key={idx}>
+                          <li
+                            className="list-none text-center justify-between"
+                            key={idx}
+                          >
                             🧾 ID Plato: {item.dishId} – Cantidad: {item.amount}{" "}
                             – Estado: {item.status}
                           </li>

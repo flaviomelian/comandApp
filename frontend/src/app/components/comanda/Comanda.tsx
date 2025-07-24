@@ -53,7 +53,7 @@ const Comanda = () => {
       await Promise.all(  // Se supone que se usa Promise.all para manejar múltiples promesas y escribirlas en
         items.map(async (item) => {
           console.log("Processing item:", item);
-          const dish = await getDishById(item); // <-- Necesitas esto
+          const dish = await getDishById(Number(item)); // <-- Necesitas esto
 
           if (!dish) {
             console.warn(
