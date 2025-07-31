@@ -11,4 +11,17 @@ export const getTables = async () => {
         console.error("Error in getTables:", error);
         throw error;
     }
+};  
+
+export const getTablesByStatus = async (status: string) => {
+    try {
+        console.log("Fetching tables...");
+        const response = await api.get(`table/status/${status}`);
+        if (response.status !== 200) throw new Error("Error fetching tables");
+        console.log("Tables fetched successfully:", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error in getTables:", error);
+        throw error;
+    }
 };    

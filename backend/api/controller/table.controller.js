@@ -32,6 +32,19 @@ export const getTable = async (request, response) => {
   }
 };
 
+export const getTablesByStatus = async (request, response) => {
+  try {
+    const tables = await Table.findAll({
+      where: {
+        status: request.params.status,
+      },
+    });
+    return response.status(200).json(tables);
+  } catch (error) {
+    return response.status(500).send(error);
+  }
+};
+
 export const createTable = async (request, response) => {
   //Funcion que nos crea una mesa
   try {
