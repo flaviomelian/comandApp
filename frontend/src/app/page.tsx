@@ -13,19 +13,22 @@ export default function Home() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
         <Card title="🧾 Menú del Día" href="/menu-del-dia">
-          Ver o editar el menú activo.
+          Ver el menú del día activo.
         </Card>
-
         <Card title="📋 Tomar Comanda" href="/comandas/nueva">
           Crear una comanda para una mesa.
         </Card>
-
         <Card title="👨‍🍳 Ver Comandas Activas" href="/comandas">
           Mostrar comandas en cocina/bar.
         </Card>
-
         <Card title="🪑 Estado de Mesas" href="/mesas">
           Ver ocupación de mesas en sala.
+        </Card>
+        <Card title="🧾 Menús" href="/menus">
+          Ver, Crear o Editar Menús.
+        </Card>
+        <Card title="🍽️ Platos" href="/platos">
+          Ver, Crear o Editar Platos.
         </Card>
       </div>
     </main>

@@ -1,4 +1,18 @@
 import api from "./index";
+
+export const getAllMenus = async () => {
+    try {
+        console.log("Fetching menus...");
+        const response = await api.get('menus');
+        if (response.status !== 200) throw new Error("Error fetching menus");
+        console.log("Menus fetched successfully:", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error in getMenus:", error);
+        throw error;
+    }
+}
+
 export const getMenusByDay = async (day: number) => {
     try {
         const response = await api.get(`menus/day/${day}`);

@@ -6,14 +6,7 @@ import { Op } from "sequelize"; //Importar el operador Op de sequelize
 export const getAllMenus = async (request, response) => {
   //Funcion que nos devuelve todas las filas de la tabla menus
   try {
-    let menus;
-    if (request.query && request.query.name) {
-      menus = await Menu.findAll({
-        where: {
-          name: request.query.name,
-        },
-      }); //guardamos todos los menus en una constante con findAll()
-    }
+    let menus = await Menu.findAll(); //guardamos todos los menus en una constante con findAll()
     return response.status(200).json(menus); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {
     return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error

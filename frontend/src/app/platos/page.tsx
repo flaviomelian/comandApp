@@ -1,10 +1,9 @@
-'use client'
-import Menus from "../components/daily-menu/Menus";
+import React from 'react'
 
 const page = () => {
   return (
     <div>
-      <Menus/>
+      Platos
     </div>
   )
 }

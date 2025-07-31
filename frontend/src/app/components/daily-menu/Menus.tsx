@@ -29,7 +29,7 @@ const Menus = () => {
       {menus.map((menu, index) => (
         <div
           key={index}
-          className="bg-gray-700 text-white p-4 rounded mb-2 w-64 h-32 flex flex-col justify-between"
+          className="bg-gray-700 text-white hover:shadow-2xl hover:bg-gray-600 transition-all 100 p-4 rounded mb-2 w-64 h-32 flex flex-col justify-between"
         >
           <h2 className="text-lg font-bold">{menu.description}</h2>
           <p className="text-sm">Precio: {menu.price} €</p>
