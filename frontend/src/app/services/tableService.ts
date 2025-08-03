@@ -24,4 +24,17 @@ export const getTablesByStatus = async (status: string) => {
         console.error("Error in getTables:", error);
         throw error;
     }
-};    
+}; 
+
+export const updateStatus = async (id: number, status: string) => {
+    try {
+        console.log(`Updating table ${id} status to ${status}...`);
+        const response = await api.put(`table/${id}`, { status });
+        if (response.status !== 200) throw new Error("Error updating table status");
+        console.log("Table status updated successfully:", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error in updateStatus:", error);
+        throw error;
+    }
+};

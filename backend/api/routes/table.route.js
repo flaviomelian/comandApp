@@ -1,5 +1,5 @@
 import express from "express"; // importar express
-import { getAllTables, createTable, getTable, getTablesByStatus, updateTable, deleteTable } from "../controller/table.controller.js"; //importar los controladores de las mesas
+import { getAllTables, createTable, getTable, getTablesByStatus, updateTable, updateTableStatus, deleteTable } from "../controller/table.controller.js"; //importar los controladores de las mesas
 
 
 const router = express.Router(); //importar el router de express
@@ -8,6 +8,7 @@ router.get("/", getAllTables);
 router.get("/:id", getTable);
 router.get("/status/:status", getTablesByStatus);
 router.post("/", createTable);
+router.put("/:id/status", updateTableStatus); // Actualizar el estado de la mesa
 router.put("/:id", updateTable);
 router.delete("/:id", deleteTable);
 

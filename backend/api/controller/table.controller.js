@@ -67,6 +67,18 @@ export const updateTable = async (request, response) => {
   }
 };
 
+export const updateTableStatus = async (request, response) => {
+  //Funcion que nos actualiza un mesa
+  try {
+    const table = await Table.update(request.body, {
+      where: { id: request.params.id },
+    }); //guardamos el mesa en una constante con update() y le pasamos el body de la request (la info de la mesa), usamos su id para filtar el que se quiere actualizar
+    return response.status(200).json(table); //devolvemos el codigo de OK y la respuesta en formato json
+  } catch (error) {
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+  }
+};
+
 export const deleteTable = async (request, response) => {
   //Funcion que nos elimina un mesa
   try {
