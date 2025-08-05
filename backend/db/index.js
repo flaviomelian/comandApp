@@ -1,12 +1,14 @@
 import e from "express";
 import { Sequelize } from "sequelize";
 //importar sequelize y las funciones que nos conectan a la base de datos
+import dotenv from "dotenv";
+const env = dotenv.config();
 
 //conexion a la base de datos
-export const sequelize = new Sequelize("comandApp", "root", "root", {
-  host: "localhost",
-  dialect: "mysql",
-  port: 3306,
+export const sequelize = new Sequelize(env.parsed.DB_NAME, env.parsed.DB_USER, env.parsed.DB_USER, {
+  host: env.parsed.DB_HOST,
+  dialect: env.parsed.DB_DIALECT,
+  port: env.parsed.DB_PORT,
   logging: false,
 });
 
