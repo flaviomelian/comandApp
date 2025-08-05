@@ -1,12 +1,13 @@
-"use client"
-import React from 'react'
-import Comanda from '@/app/components/comanda/Comanda'
+"use client";
+import React from "react";
+import Comanda from "@/app/components/comanda/Comanda";
 
 const page = () => {
-
   return (
-    <Comanda/>
-  )
-}
+    <div className="bg-gray-800 pt-10 min-h-[84dvh] overflow-y-auto">
+      <Comanda />
+    </div>
+  );
+};
 
-export default page
+export default page;

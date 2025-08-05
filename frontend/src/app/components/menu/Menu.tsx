@@ -23,13 +23,13 @@ const Menus = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-2 bg-gray-800 text-gray-100">
-      <h1 className="text-lg font-bold">MENÚS</h1>
-      <div className="grid grid-cols-4 items-center mt-5">
+    <div className="flex flex-col items-center justify-center min-h-screen p-2 bg-gray-800 text-gray-100 border-8 border-gray-700 rounded-lg shadow-lg">
+      <h1 className="text-lg font-bold mt-10">MENÚS</h1>
+      <div className="m-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
         {menus.map((menu, index) => (
           <div
             key={index}
-            className="bg-gray-700 text-white p-4 rounded mb-2 mr-2 w-64 h-32 flex flex-col hover:shadow-2xl hover:bg-gray-600 transition-all 100 justify-between"
+            className="bg-gray-700 text-white p-4 rounded mb-2 flex flex-col hover:shadow-2xl hover:bg-gray-600 transition-all justify-between w-full h-32"
           >
             <h2 className="text-lg font-bold">{menu.description}</h2>
             <p className="text-sm">Precio: {menu.price} €</p>

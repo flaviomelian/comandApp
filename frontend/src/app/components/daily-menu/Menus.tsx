@@ -23,18 +23,31 @@ const Menus = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-2 bg-gray-800 text-gray-100">
-      <h1 className="text-lg font-bold">MENÚS DEL DÍA DE HOY: {new Date().toLocaleDateString("es-ES", {
-        weekday: "long"}).toUpperCase()}</h1>
+    <div
+      className="
+  flex flex-col items-center justify-center p-2 bg-gray-800 text-gray-100
+  min-h-[91dvh]    /* altura completa en móvil */
+  sm:min-h-[84dvh]  /* altura menor en pantallas sm y superiores */
+  overflow-y-auto
+"
+    >
+      <h1 className="text-lg font-bold mb-5">
+        MENÚS DEL DÍA DE HOY:{" "}
+        {new Date()
+          .toLocaleDateString("es-ES", { weekday: "long" })
+          .toUpperCase()}
+      </h1>
+
       {menus.map((menu, index) => (
         <div
           key={index}
-          className="bg-gray-700 text-white hover:shadow-2xl hover:bg-gray-600 transition-all 100 p-4 rounded mb-2 w-64 h-32 flex flex-col justify-between"
+          className="bg-gray-700 text-white hover:shadow-2xl hover:bg-gray-600 transition-all p-4 rounded mb-2 w-64 h-32 flex flex-col justify-between"
         >
           <h2 className="text-lg font-bold">{menu.description}</h2>
           <p className="text-sm">Precio: {menu.price} €</p>
         </div>
       ))}
+
       {menus.length === 0 && (
         <p className="text-gray-400">No hay menús disponibles para hoy.</p>
       )}

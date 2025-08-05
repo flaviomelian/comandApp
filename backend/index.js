@@ -17,7 +17,7 @@ const initializeAndListen = () => {
   //Configurar express y ponerlo a escuchar en el puerto definido
   express()
     .use(morgan("dev"))
-    .use(cors({ origin: 'http://localhost:3000' })) // <-- CORS antes del router
+    .use(cors()) // <-- CORS antes del router
     .use(json())
     .use("/api", router)
     .listen(port, () => {

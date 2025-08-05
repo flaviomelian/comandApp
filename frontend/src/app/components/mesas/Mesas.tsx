@@ -9,7 +9,6 @@ interface Table {
 }
 
 const Mesas = () => {
-
   const [tables, setTables] = useState([]);
   const [occupiedTables, setOccupiedTables] = useState([]);
   const [reservedTables, setReservedTables] = useState([]);
@@ -28,99 +27,101 @@ const Mesas = () => {
   };
 
   useEffect(() => {
-    fetchTables(); // solo se ejecuta al montar el componente
-  }, []); // ✅ sin dependencias
+    fetchTables();
+  }, []);
 
   const updateTableStatus = async (id: number, status: string) => {
     try {
       await updateStatus(id, status);
-      fetchTables(); // Refrescar las mesas después de actualizar el estado
+      fetchTables();
     } catch (error) {
       console.error("Error updating table status:", error);
     }
   };
 
+  const renderTables = (tables: Table[], actions: JSX.Element[]) => (
+    <div className="flex flex-wrap justify-center gap-4 p-4 bg-gray-700 rounded-lg shadow-lg hover:shadow-2xl hover:bg-gray-600 transition-all duration-300 w-full">
+      {tables.map((table: Table) => (
+        <div
+          key={table.id}
+          className="w-full max-w-xs sm:max-w-sm md:max-w-md border text-center p-4 rounded-lg bg-gray-700 hover:bg-gray-900 transition-colors duration-200"
+        >
+          <p className="text-lg font-semibold">Mesa {table.number}</p>
+          <p className="text-sm text-gray-300">Ubicación: {table.location}</p>
+          <div className="mt-3 flex flex-col sm:flex-row gap-2 justify-center">
+            {actions.map((action, i) => (
+              <React.Fragment key={i}>{action(table)}</React.Fragment>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-800 text-gray-100">
-      <h1 className="text-3xl font-bold mb-6">MESAS</h1>
-      <div className="flex flex-col items-center mb-5">
-        <h2 className="text-2xl text-center">Libres</h2>
-        <div className="flex flex-wrap justify-center rounded-lg shadow-lg hover:shadow-2xl hover:bg-gray-600 transition-all duration-300 p-4 bg-gray-700">
-          {tables.map((table: Table) => (
-            <div
-              key={table.id}
-              className="border text-center p-4 m-2 rounded-lg bg-gray-700 hover:bg-gray-900 transition-colors duration-200"
+    <div className="flex flex-col items-center justify-start min-h-[84vh] p-4 sm:p-6 bg-gray-800 text-gray-100">
+      <h1 className="text-3xl font-bold mb-6 text-center">MESAS</h1>
+
+      {/* Libres */}
+      <section className="w-full max-w-6xl mb-8">
+        <h2 className="text-2xl mb-4 text-center">Libres</h2>
+        {renderTables(tables, [
+          (table: Table) => (
+            <button
+              onClick={() => updateTableStatus(table.id, "reservada")}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
             >
-              <p>Mesa {table.number}</p>
-              <p>Ubicación: {table.location}</p>
-              <div>
-                <button
-                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200"
-                  onClick={() => updateTableStatus(table.id, "reservada")}
-                >
-                  Reservar
-                </button>
-                <button
-                  className="mt-2 ml-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200"
-                  onClick={() => updateTableStatus(table.id, "ocupada")}
-                >
-                  Ocupar
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="flex flex-col items-center mb-5">
-        <h2 className="text-2xl text-center">Ocupadas</h2>
-        <div className="flex flex-wrap justify-center text-center rounded-lg shadow-lg hover:shadow-2xl hover:bg-gray-600 transition-all duration-300 p-4 bg-gray-700">
-          {occupiedTables.map((table: Table) => (
-            <div
-              key={table.id}
-              className="border p-4 m-2 rounded-lg bg-gray-700 hover:bg-gray-900 transition-colors duration-200"
+              Reservar
+            </button>
+          ),
+          (table: Table) => (
+            <button
+              onClick={() => updateTableStatus(table.id, "ocupada")}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
             >
-              <p>Mesa {table.number}</p>
-              <p>Ubicación: {table.location}</p>
-              <div>
-                <button
-                  className="mt-2 ml-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200"
-                  onClick={() => updateTableStatus(table.id, "libre")}
-                >
-                  Liberar
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="flex flex-col items-center mb-5">
-        <h2 className="text-2xl text-center">Reservadas</h2>
-        <div className="flex flex-wrap text-center justify-center rounded-lg shadow-lg hover:shadow-2xl hover:bg-gray-600 transition-all duration-300 p-4 bg-gray-700">
-          {reservedTables.map((table: Table) => (
-            <div
-              key={table.id}
-              className="border p-4 m-2 rounded-lg bg-gray-700 hover:bg-gray-900 transition-colors duration-200"
+              Ocupar
+            </button>
+          ),
+        ])}
+      </section>
+
+      {/* Ocupadas */}
+      <section className="w-full max-w-6xl mb-8">
+        <h2 className="text-2xl mb-4 text-center">Ocupadas</h2>
+        {renderTables(occupiedTables, [
+          (table: Table) => (
+            <button
+              onClick={() => updateTableStatus(table.id, "libre")}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
             >
-              <p>Mesa {table.number}</p>
-              <p>Ubicación: {table.location}</p>
-              <div>
-                <button
-                  className="mt-2 ml-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200"
-                  onClick={() => updateTableStatus(table.id, "ocupada")}
-                >
-                  Ocupar
-                </button>
-                <button
-                  className="mt-2 ml-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors duration-200"
-                  onClick={() => updateTableStatus(table.id, "libre")}
-                >
-                  Cancelar Reserva
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+              Liberar
+            </button>
+          ),
+        ])}
+      </section>
+
+      {/* Reservadas */}
+      <section className="w-full max-w-6xl mb-8">
+        <h2 className="text-2xl mb-4 text-center">Reservadas</h2>
+        {renderTables(reservedTables, [
+          (table: Table) => (
+            <button
+              onClick={() => updateTableStatus(table.id, "ocupada")}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+            >
+              Ocupar
+            </button>
+          ),
+          (table: Table) => (
+            <button
+              onClick={() => updateTableStatus(table.id, "libre")}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+            >
+              Cancelar Reserva
+            </button>
+          ),
+        ])}
+      </section>
     </div>
   );
 };
