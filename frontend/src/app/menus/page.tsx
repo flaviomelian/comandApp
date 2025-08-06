@@ -6,8 +6,7 @@ const page = () => {
   return (
     <div className="bg-gray-800 pt-30 min-h-screen overflow-y-auto">
       <Menus/>
-    </div>
-    
+    </div> 
   )
 }
 
