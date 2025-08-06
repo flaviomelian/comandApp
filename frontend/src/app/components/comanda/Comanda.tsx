@@ -5,6 +5,7 @@ import { createCommand } from "@/app/services/commandService";
 import { getTables } from "../../services/tableService";
 import { createItemCommand } from "@/app/services/itemCommandService";
 import { getMenuById } from "@/app/services/menuService";
+import { getDishesByMenu } from "@/app/services/dishService"
 import { stat } from "fs";
 
 interface Table {
@@ -34,10 +35,6 @@ const Comanda = () => {
     fetchTables();
   }, []);
 
-  const getDishById = async (item: number) => {
-    return await getMenuById(item);
-  };
-
   const uploadComanda = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -54,7 +51,7 @@ const Comanda = () => {
         // Se supone que se usa Promise.all para manejar múltiples promesas y escribirlas en
         items.map(async (item) => {
           console.log("Processing item:", item);
-          const dish = await getDishById(Number(item)); // <-- Necesitas esto
+          const dish = await getDishesByMenu(Number(item)); // <-- Necesitas esto
 
           if (!dish) {
             console.warn(`No se encontró un plato con nombre: ${item}`);

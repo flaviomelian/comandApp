@@ -2,11 +2,13 @@
 import { getMenusByDay } from "@/app/services/menuService";
 import React, { useState, useEffect } from "react";
 
-type Menu = {
+type Dish = {
   id: number;
   description: string;
   price: number;
-  // add other properties if needed
+  category: string;
+  available: boolean;
+  menuId: BigInteger;
 };
 
 type ItemComandaProps = {
@@ -14,18 +16,18 @@ type ItemComandaProps = {
 };
 
 const ItemComanda = ({ itemChange }: ItemComandaProps) => {
-  const [menus, setMenus] = useState<Menu[]>([]);
+  const [dishes, setDishes] = useState<Dish[]>([]);
 
   useEffect(() => {
-    const fetchMenus = async () => {
+    const fetchDishes = async () => {
       try {
         const response = await getMenusByDay(new Date().getDay());
-        setMenus(response);
+        setDishes(response);
       } catch (error) {
-        console.error("Error fetching menus:", error);
+        console.error("Error fetching Dishes:", error);
       }
     };
-    fetchMenus();
+    fetchDishes();
   }, []);
 
   return (
@@ -33,9 +35,9 @@ const ItemComanda = ({ itemChange }: ItemComandaProps) => {
       <select className="border border-gray-300 rounded p-2 w-full max-w-xs"
       onChange={(e) => itemChange((e.target as HTMLSelectElement).value)}>
         <option value="">Seleccione un menú</option>
-        {menus.map((menu, index) => (
-          <option key={index} value={menu.id}>
-            {menu.description} - {menu.price} €
+        {dishes.map((dish, index) => (
+          <option key={index} value={dish.id}>
+            {dish.description} - {dish.price} €
           </option>
         ))}
       </select>
