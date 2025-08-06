@@ -18,7 +18,7 @@ const Header = () => {
     ${pathname === href ? "bg-gray-300 font-bold shadow-inner" : ""}`;
 
   return (
-    <header className="bg-gray-900 text-white p-4 shadow-md relative">
+    <header className="bg-gray-900 text-white p-4 shadow-md fixed top-0 left-0 w-full z-40">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-center w-full md:w-auto">🍽️ ComandApp</h1>
 

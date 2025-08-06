@@ -4,7 +4,7 @@ import Comanda from "@/app/components/comanda/Comanda";
 
 const page = () => {
   return (
-    <div className="bg-gray-800 pt-10 min-h-[84dvh] overflow-y-auto">
+    <div className="bg-gray-800 pt-30 sm:pt-60 min-h-screen overflow-y-auto">
       <Comanda />
     </div>
   );

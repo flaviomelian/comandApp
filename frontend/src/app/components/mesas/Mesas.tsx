@@ -59,7 +59,8 @@ const Mesas = () => {
   );
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-[84vh] p-4 sm:p-6 bg-gray-800 text-gray-100">
+    <div className="flex flex-col items-center justify-start min-h-[84vh] pt-15 sm:mt-40 mt-15 sm:p-6 p-4 bg-gray-800 text-gray-100">
+
       <h1 className="text-3xl font-bold mb-6 text-center">MESAS</h1>
 
       {/* Libres */}

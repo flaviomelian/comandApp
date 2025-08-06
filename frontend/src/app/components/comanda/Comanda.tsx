@@ -88,7 +88,7 @@ const Comanda = () => {
   return (
     <form
       onSubmit={uploadComanda}
-      className="w-90 mx-auto my-10 max-w-2xl bg-gray-600 rounded-2xl shadow-lg p-8 flex flex-col gap-6"
+      className="w-90 mx-auto max-w-2xl bg-gray-600 rounded-2xl shadow-lg p-8 flex flex-col gap-6"
     >
       <h1 className="text-3xl font-bold text-center text-gray-800">
         🍽️ Nueva Comanda

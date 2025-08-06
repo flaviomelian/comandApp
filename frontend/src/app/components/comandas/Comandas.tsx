@@ -103,7 +103,7 @@ const Comandas = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-800 p-4">
+    <div className="min-h-screen flex flex-col items-center bg-gray-800 pt-40 pl-5 pr-5">
       <h2 className="text-2xl font-bold mt-6 mb-4 text-center w-full">
         Comandas
       </h2>
