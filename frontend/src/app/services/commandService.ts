@@ -1,4 +1,3 @@
-import { get } from "http";
 import api from "./index";
 
 interface Command {

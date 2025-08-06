@@ -14,7 +14,6 @@ router.use("/users", userRouter); //asignamos al router principal el de los usua
 router.use("/dishes", dishRouter); //asignamos al router principal el de los platos
 router.use("/menus", menuRouter); //asignamos al router principal el de los menús
 router.use("/commands", commandRouter); //asignamos al router principal el de los usuarios al acceder al endpoint /
-router.use("/dishes", dishRouter); //asignamos al router principal el de los platos
 router.use("/item-command", itemCommandRouter); //asignamos al router principal el de los platos
 router.use("/table", tableRouter); //asignamos al router principal el de los platos
 export default router; //exportar el router principal

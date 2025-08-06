@@ -1,15 +1,25 @@
 import Dish from "../model/dish.model.js"; //Importar el modelo del usuario
 
 export const getAllDishes = async (request, response) => {
-  //Funcion que nos devuelve todas las filas de la tabla usuarios
+  //Funcion que nos devuelve todas las filas de la tabla platos
+  try {
+    const dishes = await Dish.findAll(); //guardamos todos los platos en una constante con findAll()
+    return response.status(200).json(dishes); //devolvemos el codigo de OK y la respuesta en formato json
+  } catch (error) {
+    return response.status(500).send(error); //en caso de error, devolemos el codigo de error y enviamos el mensaje de error
+  }
+};
+
+export const getAllDishesByMenu = async (request, response) => {
+  //Funcion que nos devuelve todas las filas de la tabla platos por menu
   try {
     let dishes;
-    if (request.query && request.query.name) {
+    if (request.params && request.params.id) {
       dishes = await Dish.findAll({
         where: {
-          name: request.query.name,
+          menuId: request.params.id,
         },
-      }); //guardamos todos los usuarios en una constante con findAll()
+      }); //guardamos todos los platos en una constante con findAll()
     }
     return response.status(200).json(dishes); //devolvemos el codigo de OK y la respuesta en formato json
   } catch (error) {

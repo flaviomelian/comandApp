@@ -34,6 +34,10 @@ const Dish = sequelize.define(
       type: DataTypes.BOOLEAN, //tipo de dato booleano
       defaultValue: true, //valor por defecto
     },
+    //menu al que pertenece
+    menuId: {
+      type: DataTypes.INTEGER,
+    },
     //momento en el que se crea
     createdAt: {
       type: DataTypes.DATE,
