@@ -26,8 +26,7 @@ const Menus = () => {
     <div
       className="
   flex flex-col items-center justify-center p-2 bg-gray-800 text-gray-100
-  min-h-[91dvh]    /* altura completa en móvil */
-  sm:min-h-[84dvh]  /* altura menor en pantallas sm y superiores */
+  min-h-[100dvh]    /* altura completa en móvil */
   overflow-y-auto
 "
     >
